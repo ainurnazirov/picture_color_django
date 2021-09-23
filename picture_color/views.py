@@ -14,7 +14,7 @@ def number_total(image, color):
             black += 1
         elif pixel == (255, 255, 255):
             white += 1
-        elif pixel == color:
+        elif pixel[:-1] == color:
             count += 1
     return white, black, count
 
@@ -38,6 +38,9 @@ def check_colors(img, color):
     #     color = '#' + color
     print(color)
     color = ImageColor.getcolor(color, "RGB")
+    print(image.getpixel((25, 45))[:-1])
+    print(type(image.getpixel((25, 45))))
+    print(color)
     print(color)
 
     if (0, 0, 0) != color:
@@ -58,7 +61,6 @@ def index(request):
         form = ImageForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            # Get the current instance object to display in the template
             img_obj = form.instance
             w, b, c = check_colors(img_obj.image.url, img_obj.color)
             return render(request, 'picture_color\index.html',
